@@ -1,7 +1,8 @@
 package ru.yandex.practicum.sleeptracker.functions;
 
 
-import ru.yandex.practicum.sleeptracker.enums.TypeOfSleepSession;
+import ru.yandex.practicum.sleeptracker.enums.Chronotypes;
+import ru.yandex.practicum.sleeptracker.enums.TypesOfSleepSession;
 import ru.yandex.practicum.sleeptracker.models.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.models.SleepingSession;
 
@@ -16,34 +17,34 @@ public class DeterminateTypeOfPerson implements Function<SleepAnalysisResult, Sl
     public SleepAnalysisResult apply(SleepAnalysisResult sleepingSessions) {
         List<SleepingSession> sleepingSessionList = sleepingSessions.getSessions();
 
-        HashMap<String, Integer> mapOfSessions = new HashMap<>(Map.of(
-                "Жаворонок", 0,
-                "Сова", 0,
-                "Голубь", 0
+        HashMap<Chronotypes, Integer> mapOfSessions = new HashMap<>(Map.of(
+                Chronotypes.LARK, 0,
+                Chronotypes.OWL, 0,
+                Chronotypes.PIGEON, 0
         ));
 
 
-        String data = sleepingSessionList.stream()
-                .filter(session -> session.getTypeOfSession() == TypeOfSleepSession.NIGHTLY)
+        Chronotypes data = sleepingSessionList.stream()
+                .filter(session -> session.getTypeOfSession() == TypesOfSleepSession.NIGHTLY)
                 .reduce(mapOfSessions,
                 (acc, session) -> {
                     LocalTime bedTime = session.getBedDateTime().toLocalTime();
                     LocalTime wakeUpTime = session.getWakeUpDateTime().toLocalTime();
 
                     if (bedTime.isBefore(LocalTime.of(22, 0)) && wakeUpTime.isBefore(LocalTime.of(7, 0))) {
-                        acc.compute("Жаворонок", (k, v) -> v + 1);
+                        acc.compute(Chronotypes.LARK, (k, v) -> v + 1);
                     } else if (bedTime.isAfter(LocalTime.of(23, 0)) && wakeUpTime.isAfter(LocalTime.of(9, 0))) {
-                        acc.compute("Сова", (k, v) -> v + 1);
+                        acc.compute(Chronotypes.OWL, (k, v) -> v + 1);
                     } else {
-                        acc.compute("Голубь", (k, v) -> v + 1);
+                        acc.compute(Chronotypes.PIGEON, (k, v) -> v + 1);
                     }
                     return  acc;
                 },
                 (map1, map2) -> map1)
-                .entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse("Голубь");
+                .entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(Chronotypes.PIGEON);
 
 
-        String analyze = String.format("Ваш хронотип: %s\n", data);
+        String analyze = String.format("Ваш хронотип: %s\n", data.getName());
         String result = sleepingSessions.getResult() + analyze;
         return new SleepAnalysisResult(sleepingSessions.getSessions(), result);
     }

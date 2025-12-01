@@ -1,6 +1,6 @@
 package ru.yandex.practicum.sleeptracker.enums;
 
-public enum TypeOfSleepSession {
+public enum TypesOfSleepSession {
     DAILY,
     NIGHTLY
 }

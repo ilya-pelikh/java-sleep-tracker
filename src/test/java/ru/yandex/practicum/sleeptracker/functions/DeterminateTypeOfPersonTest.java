@@ -2,6 +2,7 @@ package ru.yandex.practicum.sleeptracker.functions;
 
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.sleeptracker.database.DatabaseController;
+import ru.yandex.practicum.sleeptracker.enums.Chronotypes;
 import ru.yandex.practicum.sleeptracker.models.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.models.SleepingSession;
 
@@ -26,7 +27,7 @@ public class DeterminateTypeOfPersonTest {
 
         SleepAnalysisResult result = countFunction.apply(initialResult);
 
-        assertTrue(result.getResult().contains("Ваш хронотип: Жаворонок"));
+        assertTrue(result.getResult().contains("Ваш хронотип: " + Chronotypes.LARK.getName()));
     }
 
     @Test
@@ -43,7 +44,7 @@ public class DeterminateTypeOfPersonTest {
 
         SleepAnalysisResult result = countFunction.apply(initialResult);
 
-        assertTrue(result.getResult().contains("Ваш хронотип: Сова"));
+        assertTrue(result.getResult().contains("Ваш хронотип: " + Chronotypes.OWL.getName()));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class DeterminateTypeOfPersonTest {
 
         SleepAnalysisResult result = countFunction.apply(initialResult);
 
-        assertTrue(result.getResult().contains("Ваш хронотип: Голубь"));
+        assertTrue(result.getResult().contains("Ваш хронотип: " + Chronotypes.PIGEON.getName()));
     }
 
     @Test
@@ -80,7 +81,7 @@ public class DeterminateTypeOfPersonTest {
 
         SleepAnalysisResult result = countFunction.apply(initialResult);
 
-        assertTrue(result.getResult().contains("Ваш хронотип: Жаворонок"));
+        assertTrue(result.getResult().contains("Ваш хронотип: " + Chronotypes.LARK.getName()));
     }
 
     @Test
@@ -100,7 +101,7 @@ public class DeterminateTypeOfPersonTest {
 
         SleepAnalysisResult result = countFunction.apply(initialResult);
 
-        assertTrue(result.getResult().contains("Ваш хронотип: Сова"));
+        assertTrue(result.getResult().contains("Ваш хронотип: " + Chronotypes.OWL.getName()));
     }
 
     @Test
@@ -120,6 +121,6 @@ public class DeterminateTypeOfPersonTest {
 
         SleepAnalysisResult result = countFunction.apply(initialResult);
 
-        assertTrue(result.getResult().contains("Ваш хронотип: Голубь"));
+        assertTrue(result.getResult().contains("Ваш хронотип: " + Chronotypes.PIGEON.getName()));
     }
 }

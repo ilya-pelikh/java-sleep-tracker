@@ -1,6 +1,7 @@
 package ru.yandex.practicum.sleeptracker.database;
 
 import ru.yandex.practicum.sleeptracker.database.exceptions.DateTimeConvertError;
+import ru.yandex.practicum.sleeptracker.enums.RatesOfSleep;
 import ru.yandex.practicum.sleeptracker.models.SleepingSession;
 
 import java.io.BufferedReader;
@@ -39,7 +40,7 @@ public class DatabaseController {
         List<String> data = List.of(note.split(";"));
         LocalDateTime bedDateTime = LocalDateTime.parse(data.get(0), pattern);
         LocalDateTime wakeUpDateTime = LocalDateTime.parse(data.get(1), pattern);
-        String rate = data.get(2);
+        RatesOfSleep rate = RatesOfSleep.valueOf(data.get(2));
 
        return new SleepingSession(bedDateTime, wakeUpDateTime, rate);
     }

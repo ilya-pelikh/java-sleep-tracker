@@ -1,6 +1,6 @@
 package ru.yandex.practicum.sleeptracker.functions;
 
-import ru.yandex.practicum.sleeptracker.enums.TypeOfSleepSession;
+import ru.yandex.practicum.sleeptracker.enums.TypesOfSleepSession;
 import ru.yandex.practicum.sleeptracker.models.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.models.SleepingSession;
 
@@ -21,7 +21,7 @@ public class CountSleeplessNightsOfSessions implements Function<SleepAnalysisRes
 
         long countOfSleepingDays = sleepingSessionList
                 .stream()
-                .filter(session -> session.getTypeOfSession() == TypeOfSleepSession.NIGHTLY)
+                .filter(session -> session.getTypeOfSession() == TypesOfSleepSession.NIGHTLY)
                 .map(session -> session.getWakeUpDateTime().toLocalDate())
                 .distinct()
                 .count();

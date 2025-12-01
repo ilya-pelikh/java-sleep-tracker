@@ -1,6 +1,7 @@
 package ru.yandex.practicum.sleeptracker.models;
 
-import ru.yandex.practicum.sleeptracker.enums.TypeOfSleepSession;
+import ru.yandex.practicum.sleeptracker.enums.RatesOfSleep;
+import ru.yandex.practicum.sleeptracker.enums.TypesOfSleepSession;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -10,9 +11,10 @@ import java.time.LocalTime;
 public class SleepingSession {
     private final LocalDateTime bedDateTime;
     private final LocalDateTime wakeUpDateTime;
-    private final String rate;
+    private final RatesOfSleep rate;
+    private TypesOfSleepSession typeOfSession;
 
-    public SleepingSession(LocalDateTime bedDateTime, LocalDateTime wakeUpDateTime, String rate) {
+    public SleepingSession(LocalDateTime bedDateTime, LocalDateTime wakeUpDateTime, RatesOfSleep rate) {
         this.bedDateTime = bedDateTime;
         this.wakeUpDateTime = wakeUpDateTime;
         this.rate = rate;
@@ -26,7 +28,7 @@ public class SleepingSession {
         return wakeUpDateTime;
     }
 
-    public String getRate() {
+    public RatesOfSleep getRate() {
         return rate;
     }
 
@@ -34,7 +36,11 @@ public class SleepingSession {
         return Duration.between(bedDateTime, wakeUpDateTime);
     }
 
-    public TypeOfSleepSession getTypeOfSession() {
+    public TypesOfSleepSession getTypeOfSession() {
+        if (typeOfSession != null) {
+            return typeOfSession;
+        }
+
         LocalTime nightStart = LocalTime.of(0, 0);
         LocalTime nightEnd = LocalTime.of(6, 0);
 
@@ -46,9 +52,11 @@ public class SleepingSession {
         boolean isCrossedRightEdge = wakeUpTime.isAfter(nightStart) && wakeUpTime.isBefore(nightEnd);
 
         if (isCrossedLeftEdge || isCrossedRightEdge || !isInsideOfDay) {
-            return TypeOfSleepSession.NIGHTLY;
+            typeOfSession =  TypesOfSleepSession.NIGHTLY;
+        } else {
+            typeOfSession = TypesOfSleepSession.DAILY;
         }
 
-        return TypeOfSleepSession.DAILY;
+        return typeOfSession;
     }
 }
